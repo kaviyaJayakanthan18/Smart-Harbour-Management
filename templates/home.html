@@ -1,0 +1,51 @@
+{% extends "base.html" %} {% block content %}
+<div class="hero mb-4">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-7">
+                <h1 class="display-5">Smart Harbour Management</h1>
+                <p class="lead small-muted">Manage ship arrivals, calculate harbour fees & generate invoices — all from one dashboard.</p>
+                <a href="{{ url_for('schedules') }}" class="btn btn-light btn-lg me-2">View Schedules</a>
+                <a href="{{ url_for('fees') }}" class="btn btn-outline-light btn-lg">Create Invoice</a>
+            </div>
+            <div class="col-md-5 text-end">
+                <img src="https://images.unsplash.com/photo-1509395176047-4a66953fd231?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60" class="img-fluid rounded" alt="harbour hero" style="max-height:200px; object-fit:cover;">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row g-4 mb-4">
+    <div class="col-md-4">
+        <div class="card card-lg p-3">
+            <div class="small-muted">Total Ships</div>
+            <div class="stat">{{ ship_count }}</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card card-lg p-3">
+            <div class="small-muted">Total Invoices</div>
+            <div class="stat">{{ docked_count }}</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card card-lg p-3">
+            <div class="small-muted">Local Time</div>
+            <div class="stat">{{ now.split('T')[0] }}</div>
+        </div>
+    </div>
+</div>
+<h3 class="mb-3">Upcoming Arrivals</h3>
+<div class="list-group mb-5">
+    {% for s in next_arrivals %}
+    <div class="list-group-item d-flex justify-content-between align-items-center">
+        <div>
+            <div class="fw-bold">{{ s['name'] }} <small class="text-muted">({{ s['ship_id'] }})</small></div>
+            <div class="small-muted">Arrival: {{ s['arrival'] }} • Departure: {{ s['departure'] }}</div>
+        </div>
+        <div class="small-muted">View</div>
+    </div>
+    {% else %}
+    <div class="list-group-item small-muted">No upcoming arrivals.</div>
+    {% endfor %}
+</div>
+{% endblock %}

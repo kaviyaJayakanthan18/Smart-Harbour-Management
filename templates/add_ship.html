@@ -1,0 +1,10 @@
+{% extends "base.html" %} {% block content %}
+<h3>Add Ship</h3>
+<form method="post">
+    <div class="mb-3"><label class="form-label">Ship ID</label><input class="form-control" name="ship_id" required></div>
+    <div class="mb-3"><label class="form-label">Ship Name</label><input class="form-control" name="name" required></div>
+    <div class="mb-3"><label class="form-label">Arrival (Local)</label><input class="form-control" type="datetime-local" name="arrival" required></div>
+    <div class="mb-3"><label class="form-label">Departure (Local)</label><input class="form-control" type="datetime-local" name="departure" required></div>
+    <button class="btn btn-primary">Add Ship</button>
+</form>
+{% endblock %}

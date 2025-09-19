@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Smart Harbour</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+        }
+        
+        .hero {
+            background: linear-gradient(90deg, #0d6efd 0%, #0b5ed7 100%);
+            color: white;
+            padding: 48px 0;
+        }
+        
+        .card-lg {
+            border-radius: 14px;
+            box-shadow: 0 6px 30px rgba(13, 110, 253, 0.08);
+        }
+        
+        .small-muted {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        .nav-brand {
+            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+        
+        footer {
+            padding: 20px 0;
+            color: #6c757d;
+        }
+        
+        .stat {
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm">
+        <div class="container">
+            <a class="navbar-brand nav-brand" href="{{ url_for('home') }}">⚓ Smart Harbour</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+            <div class="collapse navbar-collapse" id="navmenu">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('schedules') }}">Schedules</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('fees') }}">Fees</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('invoices') }}">Invoices</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('circulars') }}">Circulars</a></li>
+                    {% if session.get('logged_in') %}
+                    <li class="nav-item"><a class="nav-link text-primary" href="{{ url_for('logout') }}">Logout</a></li>
+                    {% else %}
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('login') }}">Admin Login</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container mt-4">
+        {% with messages = get_flashed_messages(with_categories=true) %} {% if messages %} {% for cat,msg in messages %}
+        <div class="alert alert-{{ 'warning' if cat=='warning' else ('success' if cat=='success' else ('danger' if cat=='danger' else ('info' if cat=='info' else cat))) }} alert-dismissible fade show" role="alert">
+            {{ msg }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {% endfor %} {% endif %} {% endwith %}
+    </div>
+    <main class="container my-4">
+        {% block content %}{% endblock %}
+    </main>
+    <footer class="bg-white border-top">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div class="small-muted">© Smart Harbour • Built with Flask</div>
+            <div class="small-muted">Contact: harbour-owner@example.com</div>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

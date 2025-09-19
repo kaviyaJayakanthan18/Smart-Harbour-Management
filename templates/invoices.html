@@ -1,0 +1,39 @@
+{% extends "base.html" %} {% block content %}
+<h3>Invoices</h3>
+<table class="table table-sm">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Ship</th>
+            <th>Hours</th>
+            <th>Service (₹)</th>
+            <th>Total (₹)</th>
+            <th>Issued</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for inv in invoices %}
+        <tr>
+            <td>{{ inv['id'] }}</td>
+            <td>{{ inv['ship_id'] }}</td>
+            <td>{{ inv['hours_docked'] }}</td>
+            <td>{{ '%.2f'|format(inv['service_cost']) }}</td>
+            <td><strong>{{ '%.2f'|format(inv['total']) }}</strong></td>
+            <td class="small-muted">{{ inv['issued_at'] }}</td>
+            <td>
+                {% if session.get('logged_in') %}
+                <form method="post" action="{{ url_for('delete_invoice', inv_id=inv['id']) }}">
+                    <button class="btn btn-sm btn-danger" onclick="return confirm('Delete invoice?')">Delete</button>
+                </form>
+                {% endif %}
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="7" class="small-muted">No invoices yet.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

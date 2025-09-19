@@ -1,0 +1,9 @@
+{% extends "base.html" %} {% block content %}
+<h3>Admin Login</h3>
+<form method="post">
+    <div class="mb-3"><label class="form-label">Username</label><input class="form-control" name="username" required></div>
+    <div class="mb-3"><label class="form-label">Password</label><input class="form-control" name="password" type="password" required></div>
+    <button class="btn btn-primary">Login</button>
+</form>
+<p class="mt-2 small-muted">Default admin credentials for demo: admin / harbour123</p>
+{% endblock %}

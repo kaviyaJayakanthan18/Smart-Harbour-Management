@@ -1,0 +1,42 @@
+{% extends "base.html" %} {% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h3>Ship Schedules & Arrivals</h3>
+    {% if session.get('logged_in') %}
+    <a class="btn btn-primary" href="{{ url_for('add_ship') }}">Add Ship</a>
+    <a class="btn btn-success ms-2" href="{{ url_for('download_ships_excel') }}">Download Excel</a> {% else %}
+    <a class="btn btn-outline-secondary" href="{{ url_for('login') }}">Admin Login to Add</a> {% endif %}
+</div>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Arrival</th>
+            <th>Departure</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for s in ships %}
+        <tr>
+            <td>{{ s['ship_id'] }}</td>
+            <td>{{ s['name'] }}</td>
+            <td>{{ s['arrival'] }}</td>
+            <td>{{ s['departure'] }}</td>
+            <td>
+                {% if session.get('logged_in') %}
+                <form method="post" action="{{ url_for('delete_ship', ship_id=s['ship_id']) }}" style="display:inline">
+                    <button class="btn btn-sm btn-danger" onclick="return confirm('Delete ship?')">Delete</button>
+                </form>
+                {% else %}
+                <span class="small-muted">Login to edit</span> {% endif %}
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="5" class="small-muted">No ships scheduled yet.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

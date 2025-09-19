@@ -1,0 +1,33 @@
+{% extends "base.html" %} {% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h3>Circulars & Downloads</h3>
+    {% if session.get('logged_in') %}
+    <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#uploadArea">Upload Circular</button> {% endif %}
+</div>
+<div class="collapse mb-3" id="uploadArea">
+    <div class="card card-body">
+        <form method="post" enctype="multipart/form-data">
+            <div class="mb-3"><label class="form-label">Title</label><input class="form-control" name="title" required></div>
+            <div class="mb-3"><label class="form-label">Select File (optional)</label><input class="form-control" type="file" name="file"></div>
+            <button class="btn btn-success">Upload</button>
+        </form>
+    </div>
+</div>
+<ul class="list-group">
+    {% for c in circs %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+        <div>
+            <div class="fw-bold">{{ c['title'] }}</div>
+            <div class="small-muted">Uploaded: {{ c['uploaded_at'] }}</div>
+        </div>
+        <div>
+            {% if c['filename'] %}
+            <a class="btn btn-sm btn-outline-primary" href="{{ url_for('uploads', filename=c['filename']) }}">Download</a> {% else %}
+            <span class="small-muted">No file</span> {% endif %}
+        </div>
+    </li>
+    {% else %}
+    <li class="list-group-item small-muted">No circulars available.</li>
+    {% endfor %}
+</ul>
+{% endblock %}
